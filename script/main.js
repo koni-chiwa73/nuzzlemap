@@ -1,5 +1,6 @@
 //API & DOM Elements
 const API_URL = 'https://api.thecatapi.com/v1/breeds';
+const API_KEY = 'live_ItRkwkOGmuU0FpEReCSHivNYDQMmxHAM58h8aZ5cJlEZJt0Xp2LX0jUZPhmxsXcg';
 const gallery = document.getElementById('gallery');
 const searchInput = document.getElementById('search');
 const sortSelect = document.getElementById('sort');
@@ -7,6 +8,8 @@ const toast = document.getElementById('toast');
 const loader = document.getElementById('loader');
 
 let allBreeds = [];
+let searchQuery = '';
+let sortOrder = '';
 
 //Calculate the average life span
 function getAverageLifeSpan(lifeSpan) {
@@ -25,20 +28,47 @@ function showToast(message) {
     setTimeout(() => toast.classList.add('hidden'), 400);
 }
 
+//Εμφανίζει ένα μήνυμα μέσα στο gallery (σφάλμα ή κενά αποτελέσματα)
+function showMessage(text) {
+    gallery.innerHTML = '';
+    const p = document.createElement('p');
+    p.classList.add('message');
+    p.textContent = text; // textContent: το κείμενο μπαίνει ως απλό κείμενο, όχι ως HTML
+    gallery.appendChild(p);
+}
+
+//Επιστρέφει την τιμή αν υπάρχει, αλλιώς ένα κείμενο αντικατάστασης
+function valueOrFallback(value, fallback = 'Unknown') {
+    return value ? value : fallback;
+}
+
 //Core App Logic
 //Fetch Breeds
-async function fetchBreeds(){
+async function fetchBreeds() {
     loader.classList.remove('hidden');
     try {
-        const response = await fetch(API_URL);
+        const response = await fetch(API_URL, {
+            headers: { 'x-api-key': API_KEY }
+        });
+
+        // Το fetch ΔΕΝ πετάει σφάλμα για 404/500, οπότε το ελέγχουμε εμείς
+        if (!response.ok) {
+            throw new Error(`HTTP error: ${response.status}`);
+        }
+
         const data = await response.json();
+
+        // Περιμένουμε πίνακα φυλών. Αν πάρουμε κάτι άλλο, δεν συνεχίζουμε
+        if (!Array.isArray(data)) {
+            throw new Error('Unexpected data format from API');
+        }
+
         allBreeds = data;
-        displayBreeds(allBreeds);
-        enableSearch();
-        enableSort();
+        updateView();
+        setupControls();
     } catch (error) {
         console.error('Failed to fetch breeds:', error);
-        gallery.innerHTML = '<p>Oops! Something went wrong while fetching cat breeds.</p>';
+        showMessage('Oops! Something went wrong while loading cat breeds. Please try again later.');
     } finally {
         loader.classList.add('hidden');
     }
@@ -47,11 +77,17 @@ async function fetchBreeds(){
 //Breeds Cards
 function displayBreeds(breeds) {
     gallery.innerHTML ='';
+    if (breeds.length === 0) {
+        showMessage('No breeds found. Try a different search.');
+        return;
+    }
     breeds.forEach(breed => {
         const card = document.createElement('div');
         card.classList.add('card');
 
         const img = document.createElement('img');
+        img.loading = 'lazy';
+        img.decoding = 'async';
         if (breed.reference_image_id) {
             img.src = `https://cdn2.thecatapi.com/images/${breed.reference_image_id}.jpg`;
         } else {
@@ -64,10 +100,10 @@ function displayBreeds(breeds) {
         
         card.innerHTML = `
         <h2>${breed.name}</h2>
-        <p><strong>Origin:</strong> ${breed.origin}</p>
-        <p><strong>Temperament:</strong> ${breed.temperament}</p>
-        <p><strong>Life Span:</strong> ${breed.life_span} years</p>
-        <p><strong>Weight:</strong> ${breed.weight.metric} kg</p>
+        <p><strong>Origin:</strong> ${valueOrFallback(breed.origin)}</p>
+        <p><strong>Temperament:</strong> ${valueOrFallback(breed.temperament)}</p>
+        <p><strong>Life Span:</strong> ${breed.life_span ? `${breed.life_span} years` : 'Unknown'}</p>
+        <p><strong>Weight:</strong> ${breed.weight?.metric ? `${breed.weight.metric} kg` : 'Unknown'}</p>
         ${breed.wikipedia_url ? `<a href="${breed.wikipedia_url}" target="_blank">More on Wikipedia</a>` : ''}
         <button class="adopt-btn">Adopt Me</button>
         `;
@@ -108,36 +144,45 @@ function handleAdopt(breed,adoptBtn){
 }
 
 //Search and Sort Features
-//Filters cat breeds based on search input
-function enableSearch() {
+//Υπολογίζει ποιες φυλές θα φαίνονται, με βάση ΟΛΕΣ τις τρέχουσες επιλογές
+function getVisibleBreeds() {
+    // filter() επιστρέφει ΝΕΟ πίνακα, άρα το sort παρακάτω δεν αλλάζει το allBreeds
+    const result = allBreeds.filter(b =>
+        b.name.toLowerCase().includes(searchQuery)
+    );
+
+    if (sortOrder === 'asc') {
+        result.sort((a, b) => getAverageLifeSpan(a.life_span) - getAverageLifeSpan(b.life_span));
+    } else if (sortOrder === 'desc') {
+        result.sort((a, b) => getAverageLifeSpan(b.life_span) - getAverageLifeSpan(a.life_span));
+    }
+    return result;
+}
+
+function updateView() {
+    displayBreeds(getVisibleBreeds());
+}
+
+//Οι listeners ενημερώνουν μόνο το state και καλούν το updateView
+function setupControls() {
     searchInput.addEventListener('input', () => {
-        const query = searchInput.value.toLowerCase();
-        const filtered = allBreeds.filter(b =>
-            b.name.toLowerCase().includes(query) 
-        );
-        displayBreeds(filtered);
+        searchQuery = searchInput.value.trim().toLowerCase();
+        updateView();
     });
-}
-
-//Sort breeds by Life Span
-function enableSort() {
     sortSelect.addEventListener('change', () => {
-        const value = sortSelect.value;
-        let sorted = [...allBreeds];
-        if (value === 'asc') {
-            sorted.sort((a, b) => parseFloat(a.life_span) - parseFloat(b.life_span));
-        } else if (value === 'desc') {
-            sorted.sort((a, b) => parseFloat(b.life_span) - parseFloat(a.life_span));
-        }
-        displayBreeds(sorted);
+        sortOrder = sortSelect.value;
+        updateView();
     });
 }
 
-//Dark Mode
+//Dark Mode: εναλλάσσεται με το πλήρωμα του πλήκτρου "d"
 document.addEventListener('keydown', e => {
+    // Αγνοούμε το πλήκτρο όταν ο χρήστης γράφει σε πεδίο ή πατά συνδυασμό (π.χ. Ctrl+D)
+    if (e.target.matches('input, textarea, select')) return;
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+
     if (e.key.toLowerCase() === 'd') {
         document.body.classList.toggle('dark');
-        document.querySelectorAll('.card').forEach(c => c.classList.toggle('dark'));
     }
 });
 

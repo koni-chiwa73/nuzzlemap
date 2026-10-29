@@ -61,8 +61,8 @@ header h1 {
   animation: fadeIn 0.6s ease-in;
   transition: transform 0.3s ease,border 0.3s ease;
 }
-.card.dark{
-  background: #333;
+body.dark .card {
+  background: #444;
   color: #eee;
 }
 
@@ -121,7 +121,7 @@ button.adopt-btn:hover {
   background-color: #e62f2f;
 }
 
-button.adopt-btn.dark {
+body.dark button.adopt-btn {
   background-color: #ff5252;
 }
 
@@ -179,4 +179,12 @@ button.adopt-btn.dark {
   to {
     transform: rotate(360deg);
   }
+}
+
+/* Μηνύματα μέσα στο gallery (σφάλμα / κανένα αποτέλεσμα) */
+.message {
+  grid-column: 1 / -1; /* απλώνεται σε όλο το πλάτος του grid */
+  text-align: center;
+  padding: 2rem 1rem;
+  font-size: 1.1rem;
 }
