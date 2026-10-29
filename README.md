@@ -3,9 +3,15 @@
 ## Description
 Cat Breed Gallery is a responsive web application that displays a wide variety of cat breeds using the Cat API. 
 The project started as an **assignment**, but I developed it further with additional features to make it more usable and interactive.
-In the future, I plan to enhance it further with additional functionality and a more interactive user interface.
 
 This project showcases my expertise in **HTML, CSS, and JavaScript**, as well as building modular, simple-to-use web applications.
+
+---
+
+## Technologies Used
+- HTML – structure and layout
+- CSS – styling and responsiveness
+- JavaScript – interactivity and API integration
 
 ---
 
@@ -18,16 +24,15 @@ This project showcases my expertise in **HTML, CSS, and JavaScript**, as well as
 
 ---
 
-## Technologies Used
-- **HTML5** for structure
-- **CSS3** for styling and responsive layout
-- **JavaScript (ES6+)** for interactivity and API integration
-- **Fetch API** to retrieve data from The Cat API
-- **GitHub** for version control and project management
+## Future Improvements
+- Add filters by country
+- Display favorite breeds and adoption history
+- Include more dynamic UI interactions
 
 ---
 
 ## Contact Information
 For inquiries, collaborations, or feedback, you can reach me at: 
+- [Email](mailto:elenakoni99@gmail.com)  
 - [LinkedIn](https://www.linkedin.com/in/elena-konsoula/)  
-- [Website](https://elena-konsoula.lovestoblog.com/?i=1)
+- [Personal Website](https://elena-konsoula.lovestoblog.com/?i=1)
