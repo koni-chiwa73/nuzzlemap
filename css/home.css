@@ -1,0 +1,62 @@
+.home-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: 1.5rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 1rem 3rem;
+}
+
+.home-card {
+  --card-accent: var(--color-primary);  /* τοπική μεταβλητή, την αλλάζουν τα modifiers */
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 1.75rem 1.5rem;
+  background: var(--color-surface);
+  border-top: 6px solid var(--card-accent);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  color: inherit;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.home-card--dogs { --card-accent: var(--color-olive); }
+.home-card--map  { --card-accent: var(--color-heading); }
+
+.home-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.home-card-icon {
+  font-size: 2.5rem;
+  line-height: 1;
+}
+
+.home-card h2 {
+  font-size: 1.4rem;
+  color: var(--color-heading);
+}
+
+.home-card p {
+  color: var(--color-text-muted);
+}
+
+.tag-soon {
+  align-self: flex-start;
+  background: var(--color-gold);
+  color: #26302F;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.15rem 0.65rem;
+  border-radius: var(--radius-pill);
+}
+
+.home-card-cta {
+  margin-top: auto;
+  padding-top: 0.5rem;
+  font-weight: 700;
+  color: var(--color-link);
+}

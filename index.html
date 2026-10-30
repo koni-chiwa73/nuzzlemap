@@ -3,30 +3,57 @@
   <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Cat Breed Gallery</title>
-    <link rel="stylesheet" href="styles.css"/>
+    <title>NuzzleMap | Pets, breeds and places in Greece</title>
+
+    <!-- Εφαρμόζει το αποθηκευμένο θέμα ΠΡΙΝ ζωγραφιστεί η σελίδα (βλέπε εξήγηση) -->
+    <script>
+      try {
+        if (localStorage.getItem('theme') === 'dark') {
+          document.documentElement.classList.add('dark');
+        }
+      } catch (e) {}
+    </script>
+
+    <link rel="stylesheet" href="css/base.css"/>
+    <link rel="stylesheet" href="css/home.css"/>
   </head>
 
-  <body>
-    <header>
-      <h1>Cat Breed Gallery</h1>
-      <input type="text" id="search" placeholder="Search breeds..."/>
-      <select id="sort">
-        <option value="">Sort by life span</option>
-        <option value="asc">Life Span: Low to High</option>
-        <option value="desc">Life Span: High to Low</option>
-      </select>
-    </header>
+  <body data-page="home">
+    <main>
+      <section class="hero">
+        <h1>Everything for pets and the people who <span class="accent">love them</span></h1>
+        <p class="hero-text">
+          Learn about cat and dog breeds, and find animal welfare organisations,
+          shelters and pet-friendly places across Greece.
+        </p>
+      </section>
 
-    <main id="gallery"></main>
+      <section class="home-grid" aria-label="NuzzleMap sections">
+        <a class="home-card home-card--cats" href="cats.html">
+          <span class="home-card-icon" aria-hidden="true">🐱</span>
+          <h2>Cat Breeds</h2>
+          <p>Browse breeds with photos, temperament, weight and life span.</p>
+          <span class="home-card-cta">Explore cats →</span>
+        </a>
 
-    <div id="toast" class="hidden">Adoption Request Sent!</div>
-    
-    <div id="loader" class="loader-container">
-      <p>Cats are coming...</p>
-      <div class="spinner"></div>
-    </div>
+        <a class="home-card home-card--dogs" href="dogs.html">
+          <span class="home-card-icon" aria-hidden="true">🐶</span>
+          <h2>Dog Breeds</h2>
+          <p>Find out which dog breed fits your life, size and energy level.</p>
+          <span class="tag-soon">Coming soon</span>
+          <span class="home-card-cta">Preview →</span>
+        </a>
 
-    <script type="module" src="script/main.js"></script>
+        <a class="home-card home-card--map" href="map.html">
+          <span class="home-card-icon" aria-hidden="true">🗺️</span>
+          <h2>Interactive Map</h2>
+          <p>Discover shelters, animal organisations and pet-friendly places in Greece.</p>
+          <span class="tag-soon">Coming soon</span>
+          <span class="home-card-cta">Preview →</span>
+        </a>
+      </section>
+    </main>
+
+    <script type="module" src="script/layout.js"></script>
   </body>
 </html>

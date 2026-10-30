@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Interactive Map | NuzzleMap</title>
+
+    <script>
+      try {
+        if (localStorage.getItem('theme') === 'dark') {
+          document.documentElement.classList.add('dark');
+        }
+      } catch (e) {}
+    </script>
+
+    <link rel="stylesheet" href="css/base.css"/>
+  </head>
+
+  <body data-page="map">
+    <main>
+      <section class="hero">
+        <h1>Interactive <span class="accent">Map</span></h1>
+        <p class="hero-text">
+          Find animal welfare organisations, shelters and pet-friendly places across Greece.
+        </p>
+      </section>
+
+      <section class="coming-soon">
+        <p class="coming-soon-icon" aria-hidden="true">🚧</p>
+        <h2>Coming soon</h2>
+        <p>The map is still being drawn. In the meantime, meet the cats!</p>
+        <a class="btn" href="cats.html">Browse cat breeds</a>
+      </section>
+    </main>
+
+    <script type="module" src="script/layout.js"></script>
+  </body>
+</html>

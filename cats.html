@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Cat Breed Gallery | NuzzleMap</title>
+
+    <script>
+      try {
+        if (localStorage.getItem('theme') === 'dark') {
+          document.documentElement.classList.add('dark');
+        }
+      } catch (e) {}
+    </script>
+
+    <link rel="stylesheet" href="css/base.css"/>
+    <link rel="stylesheet" href="css/gallery.css"/>
+  </head>
+
+  <body data-page="cats">
+    <main>
+      <section class="hero">
+        <h1>Meet your next <span class="accent">favourite cat</span></h1>
+        <p class="hero-text">
+          Explore cat breeds from around the world: where they come from,
+          what they are like and how long they live.
+        </p>
+
+        <div class="toolbar">
+          <div class="search-wrap">
+            <span class="search-icon" aria-hidden="true">🔍</span>
+            <label for="search" class="visually-hidden">Search breeds</label>
+            <input type="search" id="search" placeholder="Search breeds, e.g. Bengal"/>
+          </div>
+
+          <label for="sort" class="visually-hidden">Sort breeds by life span</label>
+          <select id="sort">
+            <option value="">Sort by life span</option>
+            <option value="asc">Life Span: Low to High</option>
+            <option value="desc">Life Span: High to Low</option>
+          </select>
+
+          <p id="count" class="count" aria-live="polite"></p>
+        </div>
+      </section>
+
+      <div id="gallery"></div>
+    </main>
+
+    <div id="toast" class="hidden" role="status" aria-live="polite">Adoption Request Sent!</div>
+
+    <div id="loader" class="loader-container" role="status">
+      <p>Cats are coming...</p>
+      <div class="spinner"></div>
+    </div>
+
+    <script type="module" src="script/layout.js"></script>
+    <script type="module" src="script/cats.js"></script>
+  </body>
+</html>

@@ -1,0 +1,361 @@
+/* ==========================================================
+   1. DESIGN TOKENS (CSS variables)
+   ========================================================== */
+:root {
+  /* Χρώματα brand */
+  --color-primary: #D7520A;         /* έμφαση σε μεγάλα στοιχεία */
+  --color-primary-strong: #B8450A;  /* φόντο κουμπιών (καλή αντίθεση με λευκό) */
+  --color-primary-hover: #983906;
+  --color-gold: #E89528;            /* μικρές λεπτομέρειες, focus */
+  --color-olive: #47622B;           /* chips, δευτερεύοντα */
+  --color-teal: #174B4C;            /* τίτλοι, brand */
+
+  /* Ουδέτερα (φωτεινό θέμα) */
+  --color-bg: #FBF6EC;
+  --color-bg-soft: #F3EBDC;
+  --color-surface: #FFFFFF;
+  --color-text: #26302F;
+  --color-text-muted: #5A625F;
+  --color-border: #E8DFCF;
+
+  /* Ρόλοι: τι χρώμα παίρνει κάθε είδος στοιχείου */
+  --color-heading: var(--color-teal);
+  --color-link: var(--color-teal);
+  --color-accent-text: var(--color-primary);
+  --color-brand-accent: var(--color-primary-strong);
+  --color-field-hover: var(--color-teal);
+  --nav-active-bg: var(--color-teal);
+  --nav-active-text: #FFFFFF;
+  --chip-bg: #E9EFDF;
+  --chip-text: var(--color-olive);
+
+  --shadow-card: 0 2px 10px rgba(23, 75, 76, 0.10);
+  --shadow-card-hover: 0 12px 28px rgba(23, 75, 76, 0.18);
+
+  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --radius-card: 18px;
+  --radius-pill: 999px;
+}
+
+/* Σκούρο θέμα: ξαναορίζουμε ΜΟΝΟ τις τιμές των ρόλων.
+   Η κλάση "dark" μπαίνει στο <html> (:root), όχι στο <body>. */
+:root.dark {
+  --color-bg: #0E1D1E;
+  --color-bg-soft: #142628;
+  --color-surface: #172B2C;
+  --color-text: #F1ECE1;
+  --color-text-muted: #B3BDB9;
+  --color-border: #274042;
+
+  --color-heading: var(--color-gold);
+  --color-link: var(--color-gold);
+  --color-accent-text: var(--color-gold);
+  --color-brand-accent: var(--color-gold);
+  --color-field-hover: var(--color-gold);
+  --nav-active-bg: var(--color-gold);
+  --nav-active-text: #0E1D1E;
+  --chip-bg: #2A3F1D;
+  --chip-text: #D5E6BF;
+
+  --shadow-card: 0 2px 10px rgba(0, 0, 0, 0.4);
+  --shadow-card-hover: 0 12px 28px rgba(0, 0, 0, 0.55);
+}
+
+/* ==========================================================
+   2. BASE
+   ========================================================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;            /* στήλη: header / main / footer */
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: var(--font-body);
+  line-height: 1.5;
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+main {
+  flex: 1;                  /* παίρνει τον ελεύθερο χώρο: το footer μένει κάτω */
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+.hidden {
+  display: none;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+/* ==========================================================
+   3. HEADER ΚΑΙ NAVIGATION
+   ========================================================== */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.site-header-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.75rem 1rem;
+}
+
+.brand {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--color-heading);
+  text-decoration: none;
+}
+
+.brand-map {
+  color: var(--color-brand-accent);
+}
+
+.main-nav {
+  margin-left: auto;  /* σπρώχνει menu και κουμπί θέματος προς τα δεξιά */
+}
+
+.nav-list {
+  display: flex;
+  gap: 0.25rem;
+  list-style: none;
+}
+
+.nav-link {
+  display: block;
+  padding: 0.45rem 0.9rem;
+  border-radius: var(--radius-pill);
+  color: var(--color-text);
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.nav-link:hover {
+  background: var(--color-bg-soft);
+}
+
+/* Η τρέχουσα σελίδα (το aria-current μπαίνει από το layout.js) */
+.nav-link[aria-current="page"] {
+  background: var(--nav-active-bg);
+  color: var(--nav-active-text);
+}
+
+.theme-toggle {
+  background: transparent;
+  color: var(--color-text);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  padding: 0.4rem 0.9rem;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.theme-toggle:hover {
+  border-color: var(--color-primary);
+}
+
+/* Στενές οθόνες: το menu πηγαίνει σε δεύτερη γραμμή, σε όλο το πλάτος */
+@media (max-width: 640px) {
+  .main-nav {
+    order: 3;
+    flex-basis: 100%;
+    margin-left: 0;
+  }
+
+  .nav-list {
+    justify-content: center;
+  }
+
+  .theme-toggle {
+    margin-left: auto;
+  }
+}
+
+/* ==========================================================
+   4. HERO (κοινό για όλες τις σελίδες)
+   ========================================================== */
+.hero {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2.5rem 1rem 1.5rem;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: clamp(2rem, 6vw, 3.4rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  font-weight: 800;
+  color: var(--color-heading);
+}
+
+.accent {
+  color: var(--color-accent-text);
+}
+
+.hero-text {
+  max-width: 55ch;
+  margin: 1rem auto 0;
+  font-size: 1.05rem;
+  color: var(--color-text-muted);
+}
+
+/* ==========================================================
+   5. ΚΟΥΜΠΙΑ (κοινό στυλ για <button> και <a>)
+   ========================================================== */
+.btn {
+  display: inline-block;
+  background-color: var(--color-primary-strong);
+  color: #FFFFFF;
+  border: none;
+  border-radius: var(--radius-pill);
+  padding: 0.65rem 1.3rem;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn:hover:not(:disabled) {
+  background-color: var(--color-primary-hover);
+}
+
+.btn:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+}
+
+/* ==========================================================
+   6. FOOTER
+   ========================================================== */
+.site-footer {
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  text-align: center;
+  font-size: 0.9rem;
+  padding: 1.5rem 1rem;
+}
+
+/* ==========================================================
+   7. ΣΕΛΙΔΕΣ «COMING SOON»
+   ========================================================== */
+.coming-soon {
+  max-width: 480px;
+  margin: 1rem auto 3rem;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  background: var(--color-surface);
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius-card);
+}
+
+.coming-soon-icon {
+  font-size: 2.5rem;
+}
+
+.coming-soon h2 {
+  margin: 0.5rem 0;
+  color: var(--color-heading);
+}
+
+.coming-soon p:not(.coming-soon-icon) {
+  margin-bottom: 1.25rem;
+  color: var(--color-text-muted);
+}
+
+/* ==========================================================
+   8. TOAST ΚΑΙ LOADER
+   ========================================================== */
+#toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-teal);
+  color: #FFFFFF;
+  padding: 0.8rem 1.4rem;
+  border: 1px solid var(--color-gold);
+  border-radius: var(--radius-pill);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 10000;
+}
+
+.loader-container {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: var(--color-bg);
+  z-index: 9999;
+}
+
+.loader-container.hidden {
+  display: none;
+}
+
+.loader-container p {
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  color: var(--color-text-muted);
+}
+
+.spinner {
+  width: 60px;
+  height: 60px;
+  border: 8px solid var(--color-border);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* ==========================================================
+   9. ANIMATIONS
+   ========================================================== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

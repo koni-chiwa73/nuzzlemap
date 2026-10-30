@@ -1,0 +1,214 @@
+/* ==========================================================
+   ΧΕΙΡΙΣΤΗΡΙΑ (search, sort, μετρητής)
+   ========================================================== */
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 1.75rem;
+}
+
+.search-wrap {
+  position: relative;
+  flex: 1 1 280px;
+  max-width: 420px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+#search,
+#sort {
+  font-family: inherit;
+  font-size: 1rem;
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  padding: 0.8rem 1.2rem;
+  transition: border-color 0.2s ease;
+}
+
+#search {
+  width: 100%;
+  padding-left: 2.8rem;
+}
+
+#sort {
+  cursor: pointer;
+}
+
+#search:hover,
+#sort:hover,
+#search:focus,
+#sort:focus {
+  border-color: var(--color-field-hover);
+}
+
+#search::placeholder {
+  color: var(--color-text-muted);
+  opacity: 1;
+}
+
+.count {
+  flex-basis: 100%;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
+/* ==========================================================
+   GALLERY ΚΑΙ ΚΑΡΤΕΣ
+   ========================================================== */
+#gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem 3rem;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  animation: fadeIn 0.5s ease-out;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.card-media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--color-bg-soft);
+}
+
+.card-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.card:hover .card-media img {
+  transform: scale(1.05);
+}
+
+.badge {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  background: #FFFFFF;
+  color: var(--color-teal);
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.25rem 0.7rem;
+  border-radius: var(--radius-pill);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 0.7rem;
+  padding: 1.1rem 1.25rem 1.25rem;
+}
+
+.card-body h2 {
+  font-size: 1.3rem;
+  line-height: 1.2;
+  color: var(--color-heading);
+}
+
+.origin {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  list-style: none;
+}
+
+.chip {
+  background: var(--chip-bg);
+  color: var(--chip-text);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.2rem 0.65rem;
+  border-radius: var(--radius-pill);
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  padding: 0.6rem 0.8rem;
+  background: var(--color-bg-soft);
+  border-radius: 12px;
+}
+
+.stat span {
+  display: block;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+}
+
+.stat strong {
+  font-size: 0.95rem;
+}
+
+.card-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: auto;
+  padding-top: 0.4rem;
+}
+
+.card-link {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-link);
+  text-underline-offset: 3px;
+}
+
+.card-link:hover {
+  text-decoration-thickness: 3px;
+}
+
+/* Το κοινό στυλ είναι στο .btn (base.css). Εδώ μόνο η τοποθέτηση. */
+.adopt-btn {
+  margin-left: auto;
+}
+
+/* Μηνύματα μέσα στο gallery (σφάλμα / κανένα αποτέλεσμα) */
+.message {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 2rem 1rem;
+  font-size: 1.1rem;
+  color: var(--color-text-muted);
+}
