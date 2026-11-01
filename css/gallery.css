@@ -1,5 +1,5 @@
 /* ==========================================================
-   ΧΕΙΡΙΣΤΗΡΙΑ (search, sort, μετρητής)
+   ΧΕΙΡΙΣΤΗΡΙΑ (search, sort, φίλτρα, μετρητής)
    ========================================================== */
 .toolbar {
   display: flex;
@@ -8,6 +8,17 @@
   justify-content: center;
   gap: 0.75rem;
   margin-top: 1.75rem;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.filters:empty {
+  display: none;  /* οι γάτες δεν έχουν φίλτρα */
 }
 
 .search-wrap {
@@ -24,8 +35,8 @@
   pointer-events: none;
 }
 
-#search,
-#sort {
+/* Κοινό στυλ για το πεδίο αναζήτησης και ΟΛΑ τα select */
+.control {
   font-family: inherit;
   font-size: 1rem;
   color: var(--color-text);
@@ -36,23 +47,21 @@
   transition: border-color 0.2s ease;
 }
 
-#search {
+.search-wrap .control {
   width: 100%;
   padding-left: 2.8rem;
 }
 
-#sort {
+select.control {
   cursor: pointer;
 }
 
-#search:hover,
-#sort:hover,
-#search:focus,
-#sort:focus {
+.control:hover,
+.control:focus {
   border-color: var(--color-field-hover);
 }
 
-#search::placeholder {
+.control::placeholder {
   color: var(--color-text-muted);
   opacity: 1;
 }
@@ -123,6 +132,14 @@
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
 }
 
+/* Το badge της ομάδας φυλής: αριστερά, σε άλλο χρώμα */
+.badge--left {
+  right: auto;
+  left: 0.75rem;
+  background: var(--color-teal);
+  color: #FFFFFF;
+}
+
 .card-body {
   display: flex;
   flex-direction: column;
@@ -147,6 +164,10 @@
   flex-wrap: wrap;
   gap: 0.4rem;
   list-style: none;
+}
+
+.chips:empty {
+  display: none;
 }
 
 .chip {
@@ -188,20 +209,21 @@
   padding-top: 0.4rem;
 }
 
-.card-link {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--color-link);
-  text-underline-offset: 3px;
-}
-
-.card-link:hover {
-  text-decoration-thickness: 3px;
-}
-
-/* Το κοινό στυλ είναι στο .btn (base.css). Εδώ μόνο η τοποθέτηση. */
 .adopt-btn {
   margin-left: auto;
+}
+
+/* Δευτερεύον κουμπί: περίγραμμα αντί για γεμάτο φόντο */
+.btn--ghost {
+  background: transparent;
+  color: var(--color-link);
+  border: 2px solid var(--color-border);
+  padding: 0.55rem 1.1rem;
+}
+
+.btn--ghost:hover:not(:disabled) {
+  background: var(--color-bg-soft);
+  border-color: var(--color-link);
 }
 
 /* Μηνύματα μέσα στο gallery (σφάλμα / κανένα αποτέλεσμα) */
@@ -211,4 +233,109 @@
   padding: 2rem 1rem;
   font-size: 1.1rem;
   color: var(--color-text-muted);
+}
+
+.message .btn {
+  margin-top: 1rem;
+}
+
+/* ==========================================================
+   ΠΑΡΑΘΥΡΟ ΛΕΠΤΟΜΕΡΕΙΩΝ (<dialog>)
+   ========================================================== */
+.details-dialog {
+  /* Το global "* { margin: 0 }" θα έσπαγε το κεντράρισμα, γι' αυτό το ξαναορίζουμε */
+  margin: auto;
+  width: min(92vw, 560px);
+  max-height: 90vh;
+  padding: 0;
+  overflow: auto;
+  border: none;
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  color: var(--color-text);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+}
+
+.details-dialog::backdrop {
+  background: rgba(10, 25, 26, 0.65);
+}
+
+/* Όσο το παράθυρο είναι ανοιχτό, η σελίδα πίσω δεν κυλά */
+body:has(dialog[open]) {
+  overflow: hidden;
+}
+
+.details-inner {
+  position: relative;
+}
+
+.details-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 1;
+  width: 2.2rem;
+  height: 2.2rem;
+  border: none;
+  border-radius: 50%;
+  background: #FFFFFF;
+  color: var(--color-teal);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+.details-media {
+  aspect-ratio: 16 / 10;
+  background: var(--color-bg-soft);
+}
+
+.details-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.details-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  padding: 1.25rem 1.5rem 1.5rem;
+}
+
+.details-content h2 {
+  font-size: 1.6rem;
+  line-height: 1.2;
+  color: var(--color-heading);
+}
+
+.details-description {
+  color: var(--color-text-muted);
+}
+
+.details-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.details-row {
+  display: grid;
+  grid-template-columns: 8rem 1fr;
+  gap: 0.5rem;
+  padding: 0.55rem 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.details-row dt {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+}
+
+.details-content .btn {
+  align-self: flex-start;
 }

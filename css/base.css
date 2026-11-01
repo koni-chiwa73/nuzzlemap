@@ -302,13 +302,23 @@ main {
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
-  background: var(--color-teal);
+  max-width: calc(100% - 2rem);
   color: #FFFFFF;
+  text-align: center;
   padding: 0.8rem 1.4rem;
-  border: 1px solid var(--color-gold);
   border-radius: var(--radius-pill);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   z-index: 10000;
+}
+
+#toast.toast--success {
+  background: var(--color-teal);
+  border: 1px solid var(--color-gold);
+}
+
+#toast.toast--error {
+  background: #8C1D18;  /* σκούρο κόκκινο: ~9:1 αντίθεση με λευκό κείμενο */
+  border: 1px solid #F2B8B5;
 }
 
 .loader-container {

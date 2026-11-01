@@ -30,15 +30,13 @@
           <div class="search-wrap">
             <span class="search-icon" aria-hidden="true">🔍</span>
             <label for="search" class="visually-hidden">Search breeds</label>
-            <input type="search" id="search" placeholder="Search breeds, e.g. Bengal"/>
+            <input type="search" id="search" class="control" placeholder="Search breeds, e.g. Bengal"/>
           </div>
 
-          <label for="sort" class="visually-hidden">Sort breeds by life span</label>
-          <select id="sort">
-            <option value="">Sort by life span</option>
-            <option value="asc">Life Span: Low to High</option>
-            <option value="desc">Life Span: High to Low</option>
-          </select>
+          <label for="sort" class="visually-hidden">Sort breeds</label>
+          <select id="sort" class="control"></select>
+
+          <div id="filters" class="filters"></div>
 
           <p id="count" class="count" aria-live="polite"></p>
         </div>
@@ -47,7 +45,11 @@
       <div id="gallery"></div>
     </main>
 
-    <div id="toast" class="hidden" role="status" aria-live="polite">Adoption Request Sent!</div>
+    <dialog id="details-dialog" class="details-dialog" aria-labelledby="details-title">
+      <div class="details-inner"></div>
+    </dialog>
+
+    <div id="toast" class="hidden" role="status" aria-live="polite"></div>
 
     <div id="loader" class="loader-container" role="status">
       <p>Cats are coming...</p>

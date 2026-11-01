@@ -14,25 +14,49 @@
     </script>
 
     <link rel="stylesheet" href="css/base.css"/>
+    <link rel="stylesheet" href="css/gallery.css"/>
   </head>
 
   <body data-page="dogs">
     <main>
       <section class="hero">
-        <h1>Dog <span class="accent">Breeds</span></h1>
+        <h1>Find the dog that <span class="accent">fits your life</span></h1>
         <p class="hero-text">
-          Discover dog breeds, their size, temperament and life span.
+          Explore dog breeds by size, group and temperament, and see
+          how much energy and space each one needs.
         </p>
+
+        <div class="toolbar">
+          <div class="search-wrap">
+            <span class="search-icon" aria-hidden="true">🔍</span>
+            <label for="search" class="visually-hidden">Search breeds</label>
+            <input type="search" id="search" class="control" placeholder="Search breeds, e.g. Beagle"/>
+          </div>
+
+          <label for="sort" class="visually-hidden">Sort breeds</label>
+          <select id="sort" class="control"></select>
+
+          <div id="filters" class="filters"></div>
+
+          <p id="count" class="count" aria-live="polite"></p>
+        </div>
       </section>
 
-      <section class="coming-soon">
-        <p class="coming-soon-icon" aria-hidden="true">🚧</p>
-        <h2>Coming soon</h2>
-        <p>We are still building this page. In the meantime, meet the cats!</p>
-        <a class="btn" href="cats.html">Browse cat breeds</a>
-      </section>
+      <div id="gallery"></div>
     </main>
 
+    <dialog id="details-dialog" class="details-dialog" aria-labelledby="details-title">
+      <div class="details-inner"></div>
+    </dialog>
+
+    <div id="toast" class="hidden" role="status" aria-live="polite"></div>
+
+    <div id="loader" class="loader-container" role="status">
+      <p>Dogs are coming...</p>
+      <div class="spinner"></div>
+    </div>
+
     <script type="module" src="script/layout.js"></script>
+    <script type="module" src="script/dogs.js"></script>
   </body>
 </html>

@@ -1,0 +1,231 @@
+/* ==========================================================
+   ΧΡΩΜΑΤΑ ΚΑΤΗΓΟΡΙΩΝ (ίδια σε pins και ετικέτες)
+   ========================================================== */
+:root {
+  --cat-organization: var(--color-teal);
+  --cat-shelter: var(--color-primary-strong);
+  --cat-shop: var(--color-olive);
+  --cat-friendly: var(--color-gold);
+}
+
+/* ==========================================================
+   ΔΙΑΤΑΞΗ
+   ========================================================== */
+.hero--compact {
+  padding-top: 1.75rem;
+  padding-bottom: 0.5rem;
+}
+
+.map-note {
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.map-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1rem 1rem 3rem;
+}
+
+.map-wrap {
+  display: flex;
+  order: -1;            /* στο κινητό ο χάρτης πάνω από τη λίστα */
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  /* Δημιουργεί δικό του «στρώμα»: τα z-index του Leaflet (έως 1000)
+     δεν περνούν πάνω από το sticky header μας */
+  position: relative;
+  z-index: 0;
+  isolation: isolate;
+}
+
+#map {
+  flex: 1;
+  height: 55vh;
+  min-height: 340px;
+}
+
+@media (min-width: 900px) {
+  .map-layout {
+    grid-template-columns: 380px minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr);
+    height: min(78vh, 760px);
+    margin-bottom: 3rem;
+    padding-bottom: 0;
+  }
+
+  .map-wrap {
+    order: 0;
+  }
+
+  #map {
+    height: auto;
+    min-height: 0;
+  }
+
+  .places-panel {
+    min-height: 0;
+    overflow-y: auto;
+    padding-right: 0.25rem;
+  }
+}
+
+/* ==========================================================
+   ΛΙΣΤΑ ΚΑΙ ΚΑΡΤΕΣ ΣΗΜΕΙΩΝ
+   ========================================================== */
+.places-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  list-style: none;
+}
+
+.place-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem 1.1rem;
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: 14px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.place-card.is-active {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.place-card h2 {
+  font-size: 1.1rem;
+  line-height: 1.25;
+  color: var(--color-heading);
+}
+
+.place-address {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
+.place-description {
+  font-size: 0.92rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.place-card .btn {
+  align-self: flex-start;
+}
+
+.place-tag {
+  align-self: flex-start;
+  background: var(--tag-bg, var(--color-teal));
+  color: #FFFFFF;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.2rem 0.65rem;
+  border-radius: var(--radius-pill);
+}
+
+.place-tag--organization { --tag-bg: var(--cat-organization); }
+.place-tag--shelter      { --tag-bg: var(--cat-shelter); }
+.place-tag--shop         { --tag-bg: var(--cat-shop); }
+.place-tag--friendly     { --tag-bg: var(--cat-friendly); color: #26302F; }
+
+.contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1rem;
+  font-size: 0.9rem;
+}
+
+.contact:empty {
+  display: none;
+}
+
+.contact a {
+  color: var(--color-link);
+  font-weight: 600;
+  text-underline-offset: 3px;
+}
+
+/* ==========================================================
+   PINS (L.divIcon)
+   ========================================================== */
+.pin span {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  font-size: 1.1rem;
+  line-height: 1;
+  background: var(--pin-bg, var(--color-teal));
+  border: 3px solid #FFFFFF;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  transition: transform 0.15s ease;
+}
+
+.pin:hover span,
+.pin:focus-visible span {
+  transform: scale(1.15);
+}
+
+.pin--organization { --pin-bg: var(--cat-organization); }
+.pin--shelter      { --pin-bg: var(--cat-shelter); }
+.pin--shop         { --pin-bg: var(--cat-shop); }
+.pin--friendly     { --pin-bg: var(--cat-friendly); }
+
+/* ==========================================================
+   POPUP ΚΑΙ ΠΑΡΑΚΑΜΨΕΙΣ ΤΟΥ LEAFLET
+   ========================================================== */
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.leaflet-popup-content {
+  margin: 0.9rem 1rem;
+  font-family: var(--font-body);
+  line-height: 1.4;
+}
+
+.leaflet-popup-content a {
+  color: var(--color-link);
+}
+
+.popup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.popup-title {
+  font-size: 1rem;
+  color: var(--color-heading);
+}
+
+.popup-category {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+.popup p {
+  margin: 0;       /* το Leaflet βάζει μεγάλα περιθώρια στα <p> των popups */
+  font-size: 0.9rem;
+}
+
+/* Σκούρο θέμα: μειώνουμε τη φωτεινότητα των tiles */
+:root.dark .leaflet-tile-pane {
+  filter: brightness(0.8) contrast(1.05) saturate(0.85);
+}
